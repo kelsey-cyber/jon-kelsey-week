@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jon + Kelsey's Week</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2D5F5D;
+            --primary-light: #3A7875;
+            --secondary: #E8956F;
+            --accent: #F4C96B;
+            --bg-main: #FAF9F6;
+            --bg-card: #FFFFFF;
+            --text-primary: #1A1A1A;
+            --text-secondary: #666666;
+            --border: #E5E5E5;
+            --shadow: rgba(45, 95, 93, 0.08);
+            --danger: #D64545;
+            --success: #52A675;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: linear-gradient(135deg, var(--bg-main) 0%, #F5F3EE 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding-bottom: 80px;
+        }
+
+        header {
+            background: var(--primary);
+            color: white;
+            padding: 24px 20px 20px;
+            box-shadow: 0 4px 20px var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+            font-weight: 400;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+            border-bottom: 2px solid rgba(255,255,255,0.2);
+        }
+
+        .tab {
+            padding: 10px 20px;
+            background: none;
+            border: none;
+            color: rgba(255,255,255,0.7);
+            font-family: 'Syne', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .tab.active {
+            color: white;
+            background: rgba(255,255,255,0.1);
+        }
+
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--accent);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .add-form {
+            background: var(--bg-card);
+            padding: 24px;
+            border-radius: 16px;
+            box-shadow: 0 2px 12px var(--shadow);
+            margin-bottom: 24px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .form-group {
+            flex: 1;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(45, 95, 93, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 60px;
+        }
+
+        button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 10px;
+            font-family: 'Syne', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(45, 95, 93, 0.2);
+        }
+
+        button:hover {
+            background: var(--primary-light);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(45, 95, 93, 0.3);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+        }
+
+        .btn-secondary:hover {
+            background: #D67F5A;
+        }
+
+        .btn-small {
+            padding: 8px 16px;
+            font-size: 13px;
+        }
+
+        .items-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .category-section {
+            margin-bottom: 24px;
+        }
+
+        .category-header {
+            font-family: 'Syne', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 12px;
+            padding-left: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .category-count {
+            background: var(--accent);
+            color: var(--text-primary);
+            font-size: 13px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        .item {
+            background: var(--bg-card);
+            padding: 16px 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+
+        .item:hover {
+            transform: translateX(4px);
+            box-shadow: 0 4px 16px rgba(45, 95, 93, 0.12);
+        }
+
+        .item.completed {
+            opacity: 0.6;
+        }
+
+        .item.completed .item-name {
+            text-decoration: line-through;
+        }
+
+        .checkbox {
+            width: 24px;
+            height: 24px;
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            cursor: pointer;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .checkbox.checked {
+            background: var(--success);
+            border-color: var(--success);
+        }
+
+        .checkbox.checked::after {
+            content: '✓';
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .item-content {
+            flex: 1;
+        }
+
+        .item-name {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .item-meta {
+            font-size: 13px;
+            color: var(--text-secondary);
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .priority-badge {
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .priority-high {
+            background: #FFE5E5;
+            color: var(--danger);
+        }
+
+        .priority-medium {
+            background: #FFF4E5;
+            color: #D67F5A;
+        }
+
+        .priority-low {
+            background: #E8F5E9;
+            color: var(--success);
+        }
+
+        .delete-btn {
+            background: none;
+            border: 2px solid var(--border);
+            color: var(--text-secondary);
+            padding: 8px 12px;
+            font-size: 13px;
+            box-shadow: none;
+        }
+
+        .delete-btn:hover {
+            background: var(--danger);
+            border-color: var(--danger);
+            color: white;
+            transform: none;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-secondary);
+        }
+
+        .empty-state-icon {
+            font-size: 64px;
+            margin-bottom: 16px;
+            opacity: 0.3;
+        }
+
+        .empty-state-text {
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .actions-bar {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .grocery-category {
+            border-left-color: var(--accent);
+        }
+
+        .task-category {
+            border-left-color: var(--secondary);
+        }
+
+        @media (max-width: 640px) {
+            .form-row {
+                flex-direction: column;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .actions-bar {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-secondary);
+        }
+
+        .firebase-setup-notice {
+            background: #FFF4E5;
+            border: 2px solid var(--accent);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px;
+            text-align: center;
+        }
+
+        .firebase-setup-notice h3 {
+            color: var(--primary);
+            margin-bottom: 12px;
+            font-family: 'Syne', sans-serif;
+        }
+
+        .firebase-setup-notice p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .firebase-setup-notice code {
+            background: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 13px;
+            color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Jon + Kelsey's Week 💚</h1>
+        <p class="subtitle">Our shared grocery & task list</p>
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('groceries')">🛒 Groceries</button>
+            <button class="tab" onclick="switchTab('tasks')">✓ Tasks</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Groceries Section -->
+        <div id="groceries" class="section active">
+            <div class="add-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Item Name</label>
+                        <input type="text" id="grocery-name" placeholder="e.g., Almond Milk">
+                    </div>
+                    <div class="form-group">
+                        <label>Category</label>
+                        <select id="grocery-category">
+                            <option value="Produce">🥬 Produce</option>
+                            <option value="Dairy">🥛 Dairy</option>
+                            <option value="Meat">🥩 Meat & Seafood</option>
+                            <option value="Pantry">🥫 Pantry</option>
+                            <option value="Frozen">❄️ Frozen</option>
+                            <option value="Bakery">🍞 Bakery</option>
+                            <option value="Snacks">🍿 Snacks</option>
+                            <option value="Beverages">🥤 Beverages</option>
+                            <option value="Other">📦 Other</option>
+                        </select>
+                    </div>
+                </div>
+                <button onclick="addGrocery()">+ Add to Grocery List</button>
+            </div>
+
+            <div class="actions-bar">
+                <button class="btn-secondary btn-small" onclick="clearCompleted('groceries')">Clear Completed</button>
+                <button class="btn-secondary btn-small" onclick="clearAll('groceries')">Archive All</button>
+            </div>
+
+            <div id="grocery-list"></div>
+        </div>
+
+        <!-- Tasks Section -->
+        <div id="tasks" class="section">
+            <div class="add-form">
+                <div class="form-group">
+                    <label>Task Name</label>
+                    <input type="text" id="task-name" placeholder="e.g., Clean garage">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Priority</label>
+                        <select id="task-priority">
+                            <option value="high">🔴 High</option>
+                            <option value="medium" selected>🟡 Medium</option>
+                            <option value="low">🟢 Low</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Due Date</label>
+                        <input type="date" id="task-date">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Notes (Optional)</label>
+                    <textarea id="task-notes" placeholder="Any additional details..."></textarea>
+                </div>
+                <button onclick="addTask()">+ Add Task</button>
+            </div>
+
+            <div class="actions-bar">
+                <button class="btn-secondary btn-small" onclick="clearCompleted('tasks')">Clear Completed</button>
+                <button class="btn-secondary btn-small" onclick="clearAll('tasks')">Archive All</button>
+            </div>
+
+            <div id="task-list"></div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
+        import { getDatabase, ref, push, onValue, remove, update } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js';
+
+        // ⚠️ FIREBASE CONFIGURATION - REPLACE WITH YOUR VALUES ⚠️
+        // After creating your Firebase project, paste your config here
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+            databaseURL: "https://YOUR_PROJECT_ID-default-rtdb.firebaseio.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT_ID.appspot.com",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        // Check if Firebase is configured
+        if (firebaseConfig.apiKey === "YOUR_API_KEY") {
+            document.body.innerHTML = `
+                <div class="firebase-setup-notice">
+                    <h3>🔧 Firebase Setup Required</h3>
+                    <p>Follow the setup instructions to connect your Firebase database.</p>
+                    <p>Look for <code>firebaseConfig</code> in the HTML file and replace with your Firebase project details.</p>
+                </div>
+            `;
+            throw new Error("Firebase not configured");
+        }
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        // References
+        const groceriesRef = ref(database, 'groceries');
+        const tasksRef = ref(database, 'tasks');
+
+        // Make functions globally available
+        window.addGrocery = addGrocery;
+        window.addTask = addTask;
+        window.toggleItem = toggleItem;
+        window.deleteItem = deleteItem;
+        window.clearCompleted = clearCompleted;
+        window.clearAll = clearAll;
+        window.switchTab = switchTab;
+
+        // Add Grocery
+        function addGrocery() {
+            const name = document.getElementById('grocery-name').value.trim();
+            const category = document.getElementById('grocery-category').value;
+
+            if (!name) {
+                alert('Please enter an item name');
+                return;
+            }
+
+            push(groceriesRef, {
+                name: name,
+                category: category,
+                completed: false,
+                timestamp: Date.now()
+            });
+
+            document.getElementById('grocery-name').value = '';
+        }
+
+        // Add Task
+        function addTask() {
+            const name = document.getElementById('task-name').value.trim();
+            const priority = document.getElementById('task-priority').value;
+            const dueDate = document.getElementById('task-date').value;
+            const notes = document.getElementById('task-notes').value.trim();
+
+            if (!name) {
+                alert('Please enter a task name');
+                return;
+            }
+
+            push(tasksRef, {
+                name: name,
+                priority: priority,
+                dueDate: dueDate,
+                notes: notes,
+                completed: false,
+                timestamp: Date.now()
+            });
+
+            document.getElementById('task-name').value = '';
+            document.getElementById('task-priority').value = 'medium';
+            document.getElementById('task-date').value = '';
+            document.getElementById('task-notes').value = '';
+        }
+
+        // Toggle Item Completion
+        function toggleItem(type, id, currentStatus) {
+            const itemRef = ref(database, `${type}/${id}`);
+            update(itemRef, { completed: !currentStatus });
+        }
+
+        // Delete Item
+        function deleteItem(type, id) {
+            if (confirm('Are you sure you want to delete this item?')) {
+                const itemRef = ref(database, `${type}/${id}`);
+                remove(itemRef);
+            }
+        }
+
+        // Clear Completed Items
+        function clearCompleted(type) {
+            const items = type === 'groceries' ? window.groceriesData : window.tasksData;
+            if (!items) return;
+
+            const completedItems = Object.entries(items).filter(([id, item]) => item.completed);
+            
+            if (completedItems.length === 0) {
+                alert('No completed items to clear');
+                return;
+            }
+
+            if (confirm(`Delete ${completedItems.length} completed item(s)?`)) {
+                completedItems.forEach(([id]) => {
+                    const itemRef = ref(database, `${type}/${id}`);
+                    remove(itemRef);
+                });
+            }
+        }
+
+        // Clear All Items
+        function clearAll(type) {
+            const items = type === 'groceries' ? window.groceriesData : window.tasksData;
+            if (!items) return;
+
+            const itemCount = Object.keys(items).length;
+            
+            if (itemCount === 0) {
+                alert('No items to archive');
+                return;
+            }
+
+            if (confirm(`Archive all ${itemCount} item(s)? This will delete everything in this list.`)) {
+                const listRef = ref(database, type);
+                remove(listRef);
+            }
+        }
+
+        // Switch Tabs
+        function switchTab(tab) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            
+            document.getElementById(tab).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Render Groceries
+        function renderGroceries(groceries) {
+            window.groceriesData = groceries;
+            const container = document.getElementById('grocery-list');
+            
+            if (!groceries || Object.keys(groceries).length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">🛒</div>
+                        <p class="empty-state-text">Your grocery list is empty</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const categories = {};
+            Object.entries(groceries).forEach(([id, item]) => {
+                if (!categories[item.category]) {
+                    categories[item.category] = [];
+                }
+                categories[item.category].push({ id, ...item });
+            });
+
+            let html = '';
+            Object.entries(categories).sort().forEach(([category, items]) => {
+                html += `
+                    <div class="category-section">
+                        <div class="category-header">
+                            ${category}
+                            <span class="category-count">${items.length}</span>
+                        </div>
+                        <div class="items-container">
+                `;
+                
+                items.forEach(item => {
+                    html += `
+                        <div class="item grocery-category ${item.completed ? 'completed' : ''}">
+                            <div class="checkbox ${item.completed ? 'checked' : ''}" 
+                                 onclick="toggleItem('groceries', '${item.id}', ${item.completed})"></div>
+                            <div class="item-content">
+                                <div class="item-name">${item.name}</div>
+                            </div>
+                            <button class="delete-btn btn-small" onclick="deleteItem('groceries', '${item.id}')">Delete</button>
+                        </div>
+                    `;
+                });
+                
+                html += `
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        // Render Tasks
+        function renderTasks(tasks) {
+            window.tasksData = tasks;
+            const container = document.getElementById('task-list');
+            
+            if (!tasks || Object.keys(tasks).length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">✓</div>
+                        <p class="empty-state-text">No tasks yet</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const taskArray = Object.entries(tasks).map(([id, task]) => ({ id, ...task }));
+            
+            const priorityOrder = { high: 0, medium: 1, low: 2 };
+            taskArray.sort((a, b) => {
+                if (a.completed !== b.completed) return a.completed ? 1 : -1;
+                if (a.priority !== b.priority) return priorityOrder[a.priority] - priorityOrder[b.priority];
+                if (a.dueDate && b.dueDate) return new Date(a.dueDate) - new Date(b.dueDate);
+                return b.timestamp - a.timestamp;
+            });
+
+            let html = '<div class="items-container">';
+            
+            taskArray.forEach(task => {
+                const dueDateText = task.dueDate ? new Date(task.dueDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '';
+                
+                html += `
+                    <div class="item task-category ${task.completed ? 'completed' : ''}">
+                        <div class="checkbox ${task.completed ? 'checked' : ''}" 
+                             onclick="toggleItem('tasks', '${task.id}', ${task.completed})"></div>
+                        <div class="item-content">
+                            <div class="item-name">${task.name}</div>
+                            <div class="item-meta">
+                                <span class="priority-badge priority-${task.priority}">${task.priority}</span>
+                                ${dueDateText ? `<span>📅 ${dueDateText}</span>` : ''}
+                                ${task.notes ? `<span>📝 ${task.notes}</span>` : ''}
+                            </div>
+                        </div>
+                        <button class="delete-btn btn-small" onclick="deleteItem('tasks', '${task.id}')">Delete</button>
+                    </div>
+                `;
+            });
+
+            html += '</div>';
+            container.innerHTML = html;
+        }
+
+        // Listen for changes
+        onValue(groceriesRef, (snapshot) => {
+            renderGroceries(snapshot.val());
+        });
+
+        onValue(tasksRef, (snapshot) => {
+            renderTasks(snapshot.val());
+        });
+
+        // Set default date to today
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('task-date').value = today;
+    </script>
+</body>
+</html>
