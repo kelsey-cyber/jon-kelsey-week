@@ -526,18 +526,6 @@
   measurementId: "G-ENF73MC6E8"
 };
 
-        // Check if Firebase is configured
-        if (firebaseConfig.apiKey === "YOUR_API_KEY") {
-            document.body.innerHTML = `
-                <div class="firebase-setup-notice">
-                    <h3>🔧 Firebase Setup Required</h3>
-                    <p>Follow the setup instructions to connect your Firebase database.</p>
-                    <p>Look for <code>firebaseConfig</code> in the HTML file and replace with your Firebase project details.</p>
-                </div>
-            `;
-            throw new Error("Firebase not configured");
-        }
-
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const database = getDatabase(app);
